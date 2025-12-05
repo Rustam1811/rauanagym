@@ -9,7 +9,8 @@
     "lint": "eslint",
     "seed": "tsx scripts/seed.ts",
     "seed-firebase": "tsx scripts/seed-firebase.mts",
-    "seed-admin": "tsx scripts/seed-admin.ts"
+    "seed-admin": "tsx scripts/seed-admin.ts",
+    "predeploy": "npm run build && powershell -ExecutionPolicy Bypass -File copy-build.ps1"
   },
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
@@ -18,9 +19,10 @@
     "canvas-confetti": "^1.9.4",
     "date-fns": "^4.1.0",
     "firebase": "^12.6.0",
+    "firebase-functions": "^7.0.1",
     "framer-motion": "^12.23.25",
     "lucide-react": "^0.555.0",
-    "next": "16.0.6",
+    "next": "^16.0.6",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-player": "^3.4.0"
@@ -31,6 +33,7 @@
     "@types/node": "^20.19.25",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vercel/node": "^5.5.15",
     "eslint": "^9",
     "eslint-config-next": "16.0.6",
     "firebase-admin": "^13.6.0",

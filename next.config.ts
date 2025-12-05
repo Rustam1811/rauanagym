@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Dynamic routes with client components - no static export
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

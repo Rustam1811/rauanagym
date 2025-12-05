@@ -1,3 +1,5 @@
+'use client';
+
 export default function ArenaDetailPage({ params }: { params: { id: string } }) {
   return (
     <div>

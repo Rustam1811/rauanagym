@@ -5,6 +5,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { AuthGuardProvider } from "@/components/auth/AuthGuardProvider";
 import { BottomNav } from "@/components/BottomNav";
 import { FirestoreWarning } from "@/components/FirestoreWarning";
+import { PWAInstaller } from "@/components/PWAInstaller";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,8 +18,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FitCoach - Your Personal Fitness Journey",
+  title: "Hero's Journey - Fitness App",
   description: "Transform your fitness with personalized workout programs, gamification, and expert coaching",
+  manifest: '/manifest.json',
+  themeColor: '#7C3AED',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: "Hero's Journey",
+  },
+  icons: {
+    icon: '/icon-192.svg',
+    apple: '/icon-512.svg',
+  },
 };
 
 export default function RootLayout({
@@ -28,9 +41,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#7C3AED" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="apple-touch-icon" href="/icon-512.svg" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black`}
       >
+        <PWAInstaller />
         <FirestoreWarning />
         <AuthProvider>
           <AuthGuardProvider>

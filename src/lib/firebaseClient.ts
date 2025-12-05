@@ -37,19 +37,30 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// Set persistence asynchronously (only in browser)
+// CRITICAL: Wait for Firestore to go online before using it
+let firestoreReady: Promise<void> | null = null;
+
 if (typeof window !== 'undefined') {
+  // Set auth persistence
   setPersistence(auth, browserLocalPersistence).catch((error) => {
     console.warn('Failed to set auth persistence:', error);
   });
   
-  // Force Firestore to go online (disable offline persistence)
-  enableNetwork(db).then(() => {
-    console.log('🌐 Firestore online mode enabled');
-  }).catch((error) => {
-    console.error('❌ Failed to enable Firestore network:', error);
-  });
+  // Force Firestore online and wait for it
+  firestoreReady = enableNetwork(db)
+    .then(() => {
+      console.log('🌐 Firestore online mode enabled');
+    })
+    .catch((error) => {
+      console.error('❌ Failed to enable Firestore network:', error);
+    });
 }
+
+// Export a promise that resolves when Firestore is ready
+export const waitForFirestore = () => {
+  if (typeof window === 'undefined') return Promise.resolve();
+  return firestoreReady || Promise.resolve();
+};
 
 // Configure Google provider
 const googleProvider = new GoogleAuthProvider();

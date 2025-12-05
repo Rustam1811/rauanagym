@@ -3,9 +3,14 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { db } from '@/lib/firebaseClient';
+import { db, waitForFirestore } from '@/lib/firebaseClient';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import PrimaryButton from '@/components/hero-journey/PrimaryButton';
+
+interface FirebaseError {
+  code?: string;
+  message?: string;
+}
 
 export default function PhoneLoginPage() {
   const router = useRouter();
@@ -31,6 +36,11 @@ export default function PhoneLoginPage() {
     try {
       console.log('🔐 Starting login process...');
       console.log('📱 Phone:', phone);
+      
+      // CRITICAL: Wait for Firestore to be ready
+      console.log('⏳ Waiting for Firestore to connect...');
+      await waitForFirestore();
+      console.log('✅ Firestore is ready!');
       
       // Check if admin (all 7s)
       const isAdmin = phone === '7777777777';
@@ -78,15 +88,16 @@ export default function PhoneLoginPage() {
         localStorage.setItem('user-phone', phone);
         router.push('/hero/home');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const error = err as FirebaseError;
       console.error('❌ Login error:', err);
-      console.error('Error code:', err?.code);
-      console.error('Error message:', err?.message);
+      console.error('Error code:', error.code);
+      console.error('Error message:', error.message);
       
       // More specific error messages
-      if (err?.code === 'unavailable') {
+      if (error.code === 'unavailable') {
         setError('Нет подключения к серверу. Проверьте интернет.');
-      } else if (err?.message?.includes('offline')) {
+      } else if (error.message?.includes('offline')) {
         setError('Firestore оффлайн. Попробуйте обновить страницу.');
       } else {
         setError('Ошибка входа. Попробуйте снова');

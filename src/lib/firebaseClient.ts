@@ -3,6 +3,7 @@ import { getAuth, setPersistence, browserLocalPersistence, GoogleAuthProvider } 
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
+// Validate Firebase config
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -12,6 +13,19 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+// Check if all required config values are present
+if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+  console.error('Firebase configuration is missing! Check environment variables.');
+  console.error('Current config:', {
+    apiKey: firebaseConfig.apiKey ? '✓ Set' : '✗ Missing',
+    authDomain: firebaseConfig.authDomain ? '✓ Set' : '✗ Missing',
+    projectId: firebaseConfig.projectId ? '✓ Set' : '✗ Missing',
+    storageBucket: firebaseConfig.storageBucket ? '✓ Set' : '✗ Missing',
+    messagingSenderId: firebaseConfig.messagingSenderId ? '✓ Set' : '✗ Missing',
+    appId: firebaseConfig.appId ? '✓ Set' : '✗ Missing',
+  });
+}
+
 // Initialize Firebase only once
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
@@ -20,8 +34,12 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// Set persistence to local storage
-setPersistence(auth, browserLocalPersistence);
+// Set persistence asynchronously (only in browser)
+if (typeof window !== 'undefined') {
+  setPersistence(auth, browserLocalPersistence).catch((error) => {
+    console.warn('Failed to set auth persistence:', error);
+  });
+}
 
 // Configure Google provider
 const googleProvider = new GoogleAuthProvider();

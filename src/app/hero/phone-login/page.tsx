@@ -29,15 +29,22 @@ export default function PhoneLoginPage() {
     setError('');
 
     try {
+      console.log('🔐 Starting login process...');
+      console.log('📱 Phone:', phone);
+      
       // Check if admin (all 7s)
       const isAdmin = phone === '7777777777';
 
       // Use phone as uid (simple auth without Firebase Auth)
       const uid = `user_${phone}`;
       const userRef = doc(db, 'users', uid);
+      
+      console.log('🔍 Checking if user exists in Firestore...');
       const userDoc = await getDoc(userRef);
+      console.log('✅ Firestore query completed');
 
       if (!userDoc.exists()) {
+        console.log('👤 New user - creating account...');
         // New user - save data
         await setDoc(userRef, {
           uid,
@@ -49,7 +56,9 @@ export default function PhoneLoginPage() {
           xp: 0,
           level: 1
         });
+        console.log('✅ User created successfully');
       } else {
+        console.log('👤 Existing user - verifying password...');
         // Existing user - verify password
         const userData = userDoc.data();
         if (userData.password !== password) {
@@ -57,9 +66,11 @@ export default function PhoneLoginPage() {
           setLoading(false);
           return;
         }
+        console.log('✅ Password verified');
       }
 
       // Redirect
+      console.log('🚀 Redirecting...');
       if (isAdmin) {
         localStorage.setItem('admin-phone', phone);
         router.push('/admin');
@@ -67,9 +78,19 @@ export default function PhoneLoginPage() {
         localStorage.setItem('user-phone', phone);
         router.push('/hero/home');
       }
-    } catch (err) {
-      console.error('Login error:', err);
-      setError('Ошибка входа. Попробуйте снова');
+    } catch (err: any) {
+      console.error('❌ Login error:', err);
+      console.error('Error code:', err?.code);
+      console.error('Error message:', err?.message);
+      
+      // More specific error messages
+      if (err?.code === 'unavailable') {
+        setError('Нет подключения к серверу. Проверьте интернет.');
+      } else if (err?.message?.includes('offline')) {
+        setError('Firestore оффлайн. Попробуйте обновить страницу.');
+      } else {
+        setError('Ошибка входа. Попробуйте снова');
+      }
       setLoading(false);
     }
   };

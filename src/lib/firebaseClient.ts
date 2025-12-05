@@ -1,6 +1,6 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth, setPersistence, browserLocalPersistence, GoogleAuthProvider } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, enableNetwork } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 // Validate Firebase config
@@ -41,6 +41,13 @@ const storage = getStorage(app);
 if (typeof window !== 'undefined') {
   setPersistence(auth, browserLocalPersistence).catch((error) => {
     console.warn('Failed to set auth persistence:', error);
+  });
+  
+  // Force Firestore to go online (disable offline persistence)
+  enableNetwork(db).then(() => {
+    console.log('🌐 Firestore online mode enabled');
+  }).catch((error) => {
+    console.error('❌ Failed to enable Firestore network:', error);
   });
 }
 

@@ -15,7 +15,7 @@ const firebaseConfig = {
 
 // Check if all required config values are present
 if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
-  console.error('Firebase configuration is missing! Check environment variables.');
+  console.error('🔥 Firebase configuration is missing! Check environment variables.');
   console.error('Current config:', {
     apiKey: firebaseConfig.apiKey ? '✓ Set' : '✗ Missing',
     authDomain: firebaseConfig.authDomain ? '✓ Set' : '✗ Missing',
@@ -24,6 +24,9 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
     messagingSenderId: firebaseConfig.messagingSenderId ? '✓ Set' : '✗ Missing',
     appId: firebaseConfig.appId ? '✓ Set' : '✗ Missing',
   });
+} else {
+  console.log('✅ Firebase configuration loaded successfully');
+  console.log('📦 Project ID:', firebaseConfig.projectId);
 }
 
 // Initialize Firebase only once

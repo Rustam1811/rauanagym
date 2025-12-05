@@ -1,0 +1,197 @@
+// Mock data for development and demo
+
+export const mockWorkouts = [
+  {
+    id: '1',
+    title: 'Full Body Power',
+    description: 'Complete upper and lower body workout with compound movements',
+    duration: 45,
+    calories: 380,
+    difficulty: 'intermediate' as const,
+    imageUrl: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80',
+    progress: 75,
+    isPremium: true,
+  },
+  {
+    id: '2',
+    title: 'HIIT Cardio Blast',
+    description: 'High-intensity interval training to torch calories',
+    duration: 30,
+    calories: 420,
+    difficulty: 'advanced' as const,
+    imageUrl: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80',
+    progress: 0,
+    isPremium: false,
+  },
+  {
+    id: '3',
+    title: 'Core Strength Builder',
+    description: 'Targeted abs and core exercises for definition',
+    duration: 25,
+    calories: 180,
+    difficulty: 'beginner' as const,
+    imageUrl: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80',
+    progress: 100,
+    isPremium: false,
+  },
+  {
+    id: '4',
+    title: 'Upper Body Sculpt',
+    description: 'Build strong arms, shoulders, and back',
+    duration: 40,
+    calories: 320,
+    difficulty: 'intermediate' as const,
+    imageUrl: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80',
+    progress: 30,
+    isPremium: true,
+  },
+  {
+    id: '5',
+    title: 'Leg Day Destroyer',
+    description: 'Intense lower body workout for strength and power',
+    duration: 50,
+    calories: 450,
+    difficulty: 'advanced' as const,
+    imageUrl: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=800&q=80',
+    progress: 0,
+    isPremium: true,
+  },
+  {
+    id: '6',
+    title: 'Yoga Flow',
+    description: 'Relaxing yoga sequence for flexibility and mindfulness',
+    duration: 35,
+    calories: 150,
+    difficulty: 'beginner' as const,
+    imageUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80',
+    progress: 0,
+    isPremium: false,
+  },
+];
+
+export const mockPrograms = [
+  {
+    id: 'p1',
+    title: '30-Day Shred Challenge',
+    description: 'Transform your body in just 30 days',
+    duration: 30,
+    workouts: 24,
+    level: 'intermediate' as const,
+    imageUrl: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800&q=80',
+    progress: 45,
+  },
+  {
+    id: 'p2',
+    title: 'Beginner Basics',
+    description: 'Perfect introduction to fitness',
+    duration: 21,
+    workouts: 18,
+    level: 'beginner' as const,
+    imageUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80',
+    progress: 12,
+  },
+];
+
+export const mockAchievements = [
+  {
+    id: 'a1',
+    icon: '🔥',
+    title: 'Week Warrior',
+    description: 'Complete 7 workouts in one week',
+    unlocked: true,
+    rarity: 'common' as const,
+  },
+  {
+    id: 'a2',
+    icon: '💪',
+    title: 'Streak Master',
+    description: 'Maintain a 30-day streak',
+    unlocked: true,
+    rarity: 'rare' as const,
+  },
+  {
+    id: 'a3',
+    icon: '⚡',
+    title: 'Power User',
+    description: 'Complete 100 total workouts',
+    unlocked: false,
+    progress: 67,
+    rarity: 'epic' as const,
+  },
+  {
+    id: 'a4',
+    icon: '👑',
+    title: 'Fitness Legend',
+    description: 'Reach level 50',
+    unlocked: false,
+    progress: 24,
+    rarity: 'legendary' as const,
+  },
+  {
+    id: 'a5',
+    icon: '🎯',
+    title: 'Goal Crusher',
+    description: 'Complete your first program',
+    unlocked: true,
+    rarity: 'common' as const,
+  },
+  {
+    id: 'a6',
+    icon: '🌟',
+    title: 'Early Bird',
+    description: 'Workout before 7am for 7 days',
+    unlocked: false,
+    progress: 42,
+    rarity: 'rare' as const,
+  },
+];
+
+export const mockUserStats = {
+  name: 'Alex Johnson',
+  level: 12,
+  xp: 2450,
+  xpToNextLevel: 3000,
+  streak: 23,
+  totalWorkouts: 67,
+  totalMinutes: 2840,
+  totalCalories: 18450,
+  badges: ['🔥', '💪', '⚡', '🎯'],
+  currentProgram: {
+    title: '30-Day Shred Challenge',
+    progress: 45,
+    daysRemaining: 17,
+  },
+  weeklyGoal: {
+    current: 4,
+    target: 5,
+    percentage: 80,
+  },
+  activityRings: [
+    { label: 'Move', progress: 85, color: ['#FF006E', '#FF6B9D'] as [string, string] },
+    { label: 'Exercise', progress: 60, color: ['#4F80FF', '#6CEFFF'] as [string, string] },
+    { label: 'Stand', progress: 95, color: ['#10B981', '#34D399'] as [string, string] },
+  ],
+};
+
+export const motivationalQuotes = [
+  {
+    text: "The only bad workout is the one that didn't happen.",
+    author: 'Anonymous',
+  },
+  {
+    text: 'Success is the sum of small efforts repeated day in and day out.',
+    author: 'Robert Collier',
+  },
+  {
+    text: 'Your body can stand almost anything. It\'s your mind you have to convince.',
+    author: 'Anonymous',
+  },
+  {
+    text: 'The pain you feel today will be the strength you feel tomorrow.',
+    author: 'Anonymous',
+  },
+  {
+    text: 'Don\'t stop when you\'re tired. Stop when you\'re done.',
+    author: 'Anonymous',
+  },
+];

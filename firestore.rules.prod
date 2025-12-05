@@ -1,0 +1,54 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.phone_number == '+77777777777';
+    }
+    
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    match /workouts/{workoutId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /programs/{programId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /clans/{clanId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /exercises/{exerciseId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /sessions/{sessionId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+    
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /stories/{storyId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

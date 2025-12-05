@@ -1,0 +1,26 @@
+{
+  "name": "Hero's Journey - Fitness App",
+  "short_name": "Hero's Journey",
+  "description": "Твой путь к легендарной форме начинается здесь",
+  "start_url": "/hero/welcome",
+  "display": "standalone",
+  "background_color": "#0A0A0F",
+  "theme_color": "#7C3AED",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["fitness", "health", "sports"],
+  "screenshots": []
+}

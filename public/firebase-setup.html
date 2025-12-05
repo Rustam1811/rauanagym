@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Config Checker - rauanagym</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .step {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2563eb;
+        }
+        .step h3 {
+            margin-top: 0;
+            color: #2563eb;
+        }
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #e11d48;
+        }
+        .highlight {
+            background: #fef3c7;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .config-box {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .config-box .key {
+            color: #7dd3fc;
+        }
+        .config-box .value {
+            color: #86efac;
+        }
+        .btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #1d4ed8;
+            text-decoration: none;
+        }
+        .warning {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .warning strong {
+            color: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Firebase Web Config для rauanagym</h1>
+        <p class="subtitle">Получите правильные credentials для вашего веб-приложения</p>
+
+        <div class="warning">
+            <strong>⚠️ Важно:</strong> Вы предоставили service account key (для серверной части), но для веб-приложения нужен Web SDK config.
+        </div>
+
+        <div class="step">
+            <h3>📋 Шаг 1: Откройте Firebase Console</h3>
+            <p>Перейдите в настройки вашего проекта:</p>
+            <a href="https://console.firebase.google.com/project/rauanagym/settings/general" target="_blank" class="btn">
+                Открыть настройки проекта rauanagym →
+            </a>
+        </div>
+
+        <div class="step">
+            <h3>🌐 Шаг 2: Найдите раздел "Your apps"</h3>
+            <p>Прокрутите страницу вниз до раздела "Your apps".</p>
+            <p>Если вы видите веб-приложение (иконка <code>&lt;/&gt;</code>), кликните на него.</p>
+            <p>Если веб-приложения нет, нажмите <strong>"Add app"</strong> → выберите <strong>Web</strong> → дайте название "FitCoach Web".</p>
+        </div>
+
+        <div class="step">
+            <h3>📝 Шаг 3: Скопируйте конфигурацию</h3>
+            <p>Вы увидите код похожий на этот:</p>
+            <div class="config-box">
+<span class="key">const</span> firebaseConfig = {
+  <span class="key">apiKey</span>: <span class="value">"AIzaSy..."</span>,
+  <span class="key">authDomain</span>: <span class="value">"rauanagym.firebaseapp.com"</span>,
+  <span class="key">projectId</span>: <span class="value">"rauanagym"</span>,
+  <span class="key">storageBucket</span>: <span class="value">"rauanagym.appspot.com"</span>,
+  <span class="key">messagingSenderId</span>: <span class="value">"..."</span>,
+  <span class="key">appId</span>: <span class="value">"1:..."</span>
+};
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>✏️ Шаг 4: Обновите .env.local</h3>
+            <p>Откройте файл <code>d:\IT\gym\.env.local</code> и замените значения:</p>
+            <div class="config-box">
+<span class="key">NEXT_PUBLIC_FIREBASE_API_KEY</span>=<span class="value">AIzaSy... (ваш ключ)</span>
+<span class="key">NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN</span>=<span class="value">rauanagym.firebaseapp.com</span>
+<span class="key">NEXT_PUBLIC_FIREBASE_PROJECT_ID</span>=<span class="value">rauanagym</span>
+<span class="key">NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET</span>=<span class="value">rauanagym.appspot.com</span>
+<span class="key">NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID</span>=<span class="value">... (ваш ID)</span>
+<span class="key">NEXT_PUBLIC_FIREBASE_APP_ID</span>=<span class="value">1:... (ваш ID)</span>
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>🔄 Шаг 5: Перезапустите сервер</h3>
+            <p>В терминале VS Code:</p>
+            <ol>
+                <li>Нажмите <code>Ctrl+C</code> чтобы остановить сервер</li>
+                <li>Запустите снова: <code>npm run dev</code></li>
+                <li>Откройте <a href="http://localhost:3000">http://localhost:3000</a></li>
+            </ol>
+        </div>
+
+        <div class="highlight">
+            <strong>✅ После обновления:</strong>
+            <ul>
+                <li>Ошибка "API key not valid" исчезнет</li>
+                <li>Вы сможете регистрироваться и входить в систему</li>
+                <li>Firebase будет работать правильно</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>🔐 Шаг 6: Включите Authentication</h3>
+            <p>Убедитесь что Email/Password вход включен:</p>
+            <ol>
+                <li>Откройте <a href="https://console.firebase.google.com/project/rauanagym/authentication/providers" target="_blank">Authentication</a></li>
+                <li>Найдите "Email/Password"</li>
+                <li>Если не включен - кликните, включите и сохраните</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>💾 Шаг 7: Создайте Firestore Database</h3>
+            <p>Если ещё не создали базу данных:</p>
+            <ol>
+                <li>Откройте <a href="https://console.firebase.google.com/project/rauanagym/firestore" target="_blank">Firestore Database</a></li>
+                <li>Нажмите "Create database"</li>
+                <li>Выберите "Start in test mode" (правила добавим позже)</li>
+                <li>Выберите регион (например, europe-west)</li>
+                <li>Нажмите "Enable"</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>📦 Шаг 8: Включите Storage</h3>
+            <p>Для загрузки видео и изображений:</p>
+            <ol>
+                <li>Откройте <a href="https://console.firebase.google.com/project/rauanagym/storage" target="_blank">Storage</a></li>
+                <li>Нажмите "Get started"</li>
+                <li>Выберите "Start in test mode"</li>
+                <li>Нажмите "Done"</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return request.auth != null;
+    }
+    
+    // Exercise videos - admin upload, all can read
+    match /exercises/{exerciseId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    // Story media - admin upload, all can read
+    match /stories/{storyId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    // User avatars - users can upload their own
+    match /users/{userId}/avatar/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if request.auth.uid == userId;
+    }
+  }
+}

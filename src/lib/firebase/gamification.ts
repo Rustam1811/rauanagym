@@ -64,11 +64,11 @@ export async function updateStreak(userId: string): Promise<number> {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  let newStreakDays = user.streakDays;
+  let newStreak = user.streak;
 
   if (!user.lastWorkoutDate) {
     // First workout ever
-    newStreakDays = 1;
+    newStreak = 1;
   } else {
     const lastWorkoutDate = new Date(user.lastWorkoutDate);
     lastWorkoutDate.setHours(0, 0, 0, 0);
@@ -77,22 +77,22 @@ export async function updateStreak(userId: string): Promise<number> {
 
     if (daysDiff === 0) {
       // Already worked out today, keep streak
-      newStreakDays = user.streakDays;
+      newStreak = user.streak;
     } else if (daysDiff === 1) {
       // Consecutive day, increment streak
-      newStreakDays = user.streakDays + 1;
+      newStreak = user.streak + 1;
     } else {
       // Missed day(s), reset streak
-      newStreakDays = 1;
+      newStreak = 1;
     }
   }
 
   await updateUserProfile(userId, {
-    streakDays: newStreakDays,
+    streak: newStreak,
     lastWorkoutDate: new Date(),
   });
 
-  return newStreakDays;
+  return newStreak;
 }
 
 // Define available badges
@@ -157,7 +157,7 @@ export const BADGES: Badge[] = [
 export async function checkAndAwardBadges(
   userId: string,
   totalWorkouts: number,
-  streakDays: number,
+  streak: number,
   xp: number
 ): Promise<string[]> {
   const user = await getUserProfile(userId);
@@ -176,7 +176,7 @@ export async function checkAndAwardBadges(
     newBadges.push('week_warrior');
   }
 
-  if (streakDays >= 7 && !currentBadges.includes('consistency_king')) {
+  if (streak >= 7 && !currentBadges.includes('consistency_king')) {
     newBadges.push('consistency_king');
   }
 
@@ -184,7 +184,7 @@ export async function checkAndAwardBadges(
     newBadges.push('dedication');
   }
 
-  if (streakDays >= 30 && !currentBadges.includes('streak_master')) {
+  if (streak >= 30 && !currentBadges.includes('streak_master')) {
     newBadges.push('streak_master');
   }
 
@@ -230,9 +230,9 @@ export async function completeWorkout(
   const newStreak = await updateStreak(userId);
 
   // Increment total workouts
-  const newTotalWorkouts = user.totalWorkoutsCompleted + 1;
+  const newTotalWorkouts = user.totalWorkouts + 1;
   await updateUserProfile(userId, {
-    totalWorkoutsCompleted: newTotalWorkouts,
+    totalWorkouts: newTotalWorkouts,
   });
 
   // Check for new badges

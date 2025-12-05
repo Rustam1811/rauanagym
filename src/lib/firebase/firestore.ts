@@ -50,12 +50,12 @@ export async function updateUserProfile(userId: string, updates: Partial<User>):
 export async function completeOnboarding(
   userId: string,
   goal: UserGoal,
-  level: UserLevel,
+  experienceLevel: UserLevel,
   programId: string
 ): Promise<void> {
   await updateUserProfile(userId, {
     goal,
-    level,
+    experienceLevel,
     currentProgramId: programId,
   });
 }

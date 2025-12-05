@@ -16,6 +16,9 @@
 # next.js
 /.next/
 /out/
+functions/.next/
+functions/lib/
+functions/public/
 
 # production
 /build

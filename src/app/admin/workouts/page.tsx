@@ -5,6 +5,9 @@ import AdminCard from '@/components/admin/AdminCard';
 import GradientButton from '@/components/admin/GradientButton';
 import WorkoutsTable from '@/components/admin/WorkoutsTable';
 
+// Force dynamic rendering (don't prerender at build time)
+export const dynamic = 'force-dynamic';
+
 export default async function WorkoutsPage() {
   const workouts = await getWorkouts();
 

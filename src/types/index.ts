@@ -53,12 +53,22 @@ export interface Program {
 
 export interface Workout {
   id: string;
-  programId: string;
-  dayIndex: number; // Day 1, 2, 3 etc.
+  programId?: string;
+  dayIndex?: number; // Day 1, 2, 3 etc.
   title: string;
   description: string;
   exerciseIds: string[];
   estimatedDurationMinutes: number;
+  
+  // Additional fields for standalone workouts
+  coverImageUrl?: string;
+  category?: string;
+  difficulty?: UserLevel;
+  isPremium?: boolean;
+  caloriesBurned?: number;
+  xpReward?: number;
+  rating?: number;
+  
   createdAt: Date;
   updatedAt: Date;
 }

@@ -6,6 +6,9 @@ import { AuthGuardProvider } from "@/components/auth/AuthGuardProvider";
 import { BottomNav } from "@/components/BottomNav";
 import { FirestoreWarning } from "@/components/FirestoreWarning";
 import { PWAInstaller } from "@/components/PWAInstaller";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { ToastProvider } from "@/contexts/ToastContext";
+import { QueryProvider } from "@/contexts/QueryProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,14 +54,20 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black`}
       >
-        <PWAInstaller />
-        <FirestoreWarning />
-        <AuthProvider>
-          <AuthGuardProvider>
-            {children}
-            <BottomNav />
-          </AuthGuardProvider>
-        </AuthProvider>
+        <ErrorBoundary>
+          <QueryProvider>
+            <ToastProvider>
+              <PWAInstaller />
+              <FirestoreWarning />
+              <AuthProvider>
+                <AuthGuardProvider>
+                  {children}
+                  <BottomNav />
+                </AuthGuardProvider>
+              </AuthProvider>
+            </ToastProvider>
+          </QueryProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

@@ -6,31 +6,14 @@ import Image from 'next/image';
 import BottomTabBar from '@/components/hero-journey/BottomTabBar';
 import AvatarCharacter from '@/components/hero-journey/AvatarCharacter';
 import { Ticket, Dumbbell, Settings, Target, TrendingUp, Flame, Clock } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRecommendedWorkouts } from '@/hooks/useWorkouts';
+import { WorkoutCardSkeleton } from '@/components/ui/Skeleton';
+import { NoWorkoutsEmpty } from '@/components/ui/EmptyState';
 
 export default function HomePage() {
-  const recommendedWorkouts = [
-    {
-      id: 1,
-      title: 'Full Body Strength',
-      duration: 45,
-      calories: 380,
-      image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80',
-    },
-    {
-      id: 2,
-      title: 'HIIT Cardio Blast',
-      duration: 30,
-      calories: 450,
-      image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80',
-    },
-    {
-      id: 3,
-      title: 'Yoga Flow',
-      duration: 40,
-      calories: 180,
-      image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80',
-    },
-  ];
+  const { userProfile } = useAuth();
+  const { data: workouts, isLoading, error } = useRecommendedWorkouts();
 
   return (
     <div className="min-h-screen bg-white pb-32">
@@ -143,8 +126,34 @@ export default function HomePage() {
               Все
             </Link>
           </div>
-          <div className="space-y-4">
-            {recommendedWorkouts.map((workout, index) => (
+
+          {/* Loading State */}
+          {isLoading && (
+            <div className="space-y-4">
+              {[1, 2, 3].map((i) => (
+                <WorkoutCardSkeleton key={i} />
+              ))}
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <div className="p-6 rounded-3xl bg-red-50 border border-red-200">
+              <p className="text-red-600 text-center">
+                Не удалось загрузить тренировки
+              </p>
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!isLoading && !error && (!workouts || workouts.length === 0) && (
+            <NoWorkoutsEmpty />
+          )}
+
+          {/* Workout List */}
+          {!isLoading && !error && workouts && workouts.length > 0 && (
+            <div className="space-y-4">
+              {workouts.map((workout, index) => (
               <Link key={workout.id} href={`/hero/workout/${workout.id}`}>
                 <motion.div
                   initial={{ y: 20, opacity: 0 }}
@@ -154,12 +163,16 @@ export default function HomePage() {
                 >
                   <div className="flex gap-4 p-4">
                     <div className="relative w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 shadow-lg">
-                      <Image
-                        src={workout.image}
-                        alt={workout.title}
-                        fill
-                        className="object-cover"
-                      />
+                      {workout.coverImageUrl ? (
+                        <Image
+                          src={workout.coverImageUrl}
+                          alt={workout.title}
+                          fill
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-purple-400 to-pink-400" />
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                     </div>
                     <div className="flex-1 flex flex-col justify-center">
@@ -167,11 +180,11 @@ export default function HomePage() {
                       <div className="flex items-center gap-3 text-sm text-gray-600">
                         <div className="flex items-center gap-1">
                           <Clock className="w-4 h-4" strokeWidth={2} />
-                          <span className="font-medium">{workout.duration} мин</span>
+                          <span className="font-medium">{workout.estimatedDurationMinutes} мин</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <Flame className="w-4 h-4" strokeWidth={2} />
-                          <span className="font-medium">{workout.calories} ккал</span>
+                          <span className="font-medium">{workout.caloriesBurned || 0} ккал</span>
                         </div>
                       </div>
                     </div>
@@ -179,7 +192,8 @@ export default function HomePage() {
                 </motion.div>
               </Link>
             ))}
-          </div>
+            </div>
+          )}
         </motion.div>
 
         {/* Quick Start Button */}

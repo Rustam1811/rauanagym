@@ -19,17 +19,19 @@ export function useAuthGuard() {
     // Don't redirect while loading
     if (loading) return;
 
-    const isAuthPage = pathname === '/auth';
+    // Public pages that don't require auth
+    const publicPaths = ['/auth', '/hero/phone-login', '/hero/email-login', '/hero/welcome'];
+    const isPublicPage = publicPaths.some(path => pathname.startsWith(path));
 
-    // Redirect unauthenticated users to /auth
-    if (!user && !isAuthPage) {
+    // Redirect unauthenticated users to /auth (but not if already on public page)
+    if (!user && !isPublicPage) {
       router.replace('/auth');
       return;
     }
 
-    // Redirect authenticated users away from /auth
-    if (user && isAuthPage) {
-      router.replace('/');
+    // Redirect authenticated users away from /auth to home
+    if (user && pathname === '/auth') {
+      router.replace('/hero/home');
       return;
     }
   }, [user, loading, pathname, router]);

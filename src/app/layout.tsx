@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { AuthGuardProvider } from "@/components/auth/AuthGuardProvider";
 import { BottomNav } from "@/components/BottomNav";
 import { FirestoreWarning } from "@/components/FirestoreWarning";
 import { PWAInstaller } from "@/components/PWAInstaller";
@@ -60,10 +59,8 @@ export default function RootLayout({
               <PWAInstaller />
               <FirestoreWarning />
               <AuthProvider>
-                <AuthGuardProvider>
-                  {children}
-                  <BottomNav />
-                </AuthGuardProvider>
+                {children}
+                <BottomNav />
               </AuthProvider>
             </ToastProvider>
           </QueryProvider>
